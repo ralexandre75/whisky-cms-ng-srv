@@ -4,7 +4,7 @@
   "description": "CMS based on the MEAN stack",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "keywords": [
     "Mongo",
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "nodemon": "^1.18.9"
   }
 }

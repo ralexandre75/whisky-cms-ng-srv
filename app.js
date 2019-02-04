@@ -6,7 +6,7 @@ const cors = require('cors');
 app.set('port', (process.env.port || 3000));
 
 app.use(cors());
-app.use('./api/v1', api);
+app.use('/api/v1', api);
 
 app.listen(app.get('port'), () => {
     console.log(`express server listening on port ${app.get('port')}`);
