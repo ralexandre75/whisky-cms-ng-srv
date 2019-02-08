@@ -7,7 +7,7 @@
     "start": "npm run lint & nodemon app.js",
     "lint": "./node_modules/.bin/eslint **/*.js"
   },
-    "keywords": [
+  "keywords": [
     "Mongo",
     "Express",
     "Angular",
@@ -21,6 +21,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "mongoose": "^5.4.9",
     "nodemon": "^1.18.9"
   }
 }
