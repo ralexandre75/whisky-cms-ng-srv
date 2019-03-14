@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Blogpost = require('../models/blogpost');
 const mongoose = require('mongoose');
+const multer = require('multer');
+const crypto = require('crypto');
+const path = require('path');
+
 
 router.get('/ping', (req, res) => {
     res.status(200).json({msg: 'pong', date: new Date()});
@@ -17,6 +21,24 @@ router.get('/blog-posts', (req,res) => {
 		error: err
 	}));
 }); //localhost:3000/api/v1/blog-posts
+
+// file upload configuration with multer / crypto / path
+const storage = multer.diskStorage({
+	destination: './uploads/',
+	filename: function (req, file, callback) {
+		crypto.pseudoRandomBytes(16, function(err, raw){
+			if (err) return callback(err);
+			callback(null, raw.toString('hex') + path.extname(file.originalname));
+		});
+	}
+});
+
+const upload = multer({storage: storage});
+
+//file upload
+router.post('/blog-posts/images', upload.single('blogimage'), (req, res) => {
+	res.status(201).send({ fileName: req.file.fileName, file: req.file});
+})
 
 router.get('/blog-posts/:id', (req,res) => {
 	const id = req.params.id;
