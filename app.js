@@ -14,6 +14,11 @@ app.set('port', (process.env.port || 3000));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+
+const uploadsDir = require("path").join(__dirname, '/uploads');
+console.log('uploadsDir', uploadsDir);
+app.use(express.static(uploadsDir));
+
 app.use('/api/v1', api);
 app.use((req, res) => {
     const err = new Error('404 - Not found !!!!!');
