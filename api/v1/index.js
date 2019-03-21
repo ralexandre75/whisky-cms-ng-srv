@@ -13,6 +13,7 @@ router.get('/ping', (req, res) => {
 });
 
 router.get('/blog-posts', (req, res) => {
+	console.log('req.user', req.user);
 	Blogpost.find()
 		.sort({ 'createdOn': -1 })
 		.exec()
