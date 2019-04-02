@@ -14,7 +14,7 @@ app.set('port', (process.env.port || 3000));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:4200'}));
 
 // passport--
 const passport = require('passport');
@@ -27,9 +27,10 @@ const User = require('./auth/models/user');
 app.use(cookieParser());
 //a session needs a secret to create a cookie
 app.use(session({
+	secret: 'my super secret',
 	resave: true,
 	saveUninitialized: true,
-	secret: 'my super secret'
+	name: 'whisky-cookie'
 }));
 app.use(passport.initialize());
 app.use(passport.session());

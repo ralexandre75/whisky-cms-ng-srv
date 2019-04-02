@@ -22,7 +22,7 @@ router.get('/blog-posts', (req, res) => {
 			message: 'blog posts not found - :(',
 			error: err
 		}));
-});
+}); // GET http://localhost:3000/api/v1/blog-posts
 
 router.get('/blog-posts/:id', (req, res) => {
 	const id = req.params.id;
@@ -32,7 +32,7 @@ router.get('/blog-posts/:id', (req, res) => {
 			message: `blog post with id ${id} not found`,
 			error: err
 		}));
-});
+}); // GET http://localhost:3000/api/v1/blog-posts?ids=a1z2e3
 
 router.post('/blog-posts', (req, res) => {
 	console.log('req.body', req.body);
@@ -55,9 +55,14 @@ router.post('/blog-posts', (req, res) => {
 		}
 		res.status(201).json(blogPost);
 	});
-});
+}); // POST http://localhost:3000/api/v1/blog-posts
 
 router.delete('/blog-posts/:id', (req, res) => {
+	console.log('req.isAuthenticated()', req.isAuthenticated());
+	// req.logout(); // Too delete this line
+	if(!req.isAuthenticated()) {
+		return res.status(401).json({ result: 'KO', msg: 'NOT authorized to delete a blog post'});
+	}
 	const id = req.params.id;
 	console.log('delete by id', id);
 	Blogpost.findByIdAndDelete(id, (err, blogPost) => {
@@ -66,10 +71,14 @@ router.delete('/blog-posts/:id', (req, res) => {
 		}
 		res.status(202).json({ msg: `blog post with id ${blogPost._id} deleted`});
 	});
-});
+}); // DELETE http://localhost:3000/api/v1/blog-posts?ids=a1z2e3
 
 router.delete('/blog-posts', (req, res) => {
 	// retrieves the query parameter: http://localhost:3000/api/v1/blog-posts?ids=5c1133b8225e420884687048,5c1133b6225e420884687047
+	if(!req.isAuthenticated()) {
+		return res.status(401).json({ result: 'KO', msg: 'NOT authorized to delete a blog post'});
+	}
+	
 	const ids = req.query.ids;
 	console.log('query allIds', ids);
 	const allIds = ids.split(',').map(id => {
